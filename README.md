@@ -7,7 +7,7 @@ Plain HTML, CSS and JavaScript with no build step and no dependencies. Works off
 ## Put it on GitHub Pages
 
 1. Create a new public repository on GitHub, for example `ton`.
-2. Upload everything in this folder to the root of the repo: `index.html`, `manifest.json`, `sw.js`, `icons/` and this README. On github.com, use **Add file → Upload files** and drag them in.
+2. Upload all the files to the root of the repo, with no folders: `index.html`, `manifest.json`, `sw.js`, `icon-180.png`, `icon-192.png`, `icon-512.png`, `icon-1024.png` and this README. On github.com, use **Add file → Upload files** and select them all.
 3. Open **Settings → Pages**. Under "Build and deployment", set the source to **Deploy from a branch**, pick `main` and `/ (root)`, then save.
 4. After a minute the game is live at `https://<your-username>.github.io/ton/`.
 
