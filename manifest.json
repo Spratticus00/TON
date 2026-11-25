@@ -1,7 +1,7 @@
 {
   "name": "TON",
   "short_name": "TON",
-  "description": "Swallow the city. Get bigger. Swallow more.",
+  "description": "Consume the city. Get bigger. Consume more.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

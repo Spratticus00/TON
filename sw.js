@@ -1,5 +1,5 @@
 // Offline support: network first (so updates show up), cache as fallback.
-const CACHE = 'ton-v3';
+const CACHE = 'ton-v4';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-180.png', './icon-192.png', './icon-512.png', './icon-1024.png'];
 
 self.addEventListener('install', e => {
