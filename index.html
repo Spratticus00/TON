@@ -25,19 +25,20 @@ html,body{margin:0;height:100%;background:#14161c;color:var(--ink);overflow:hidd
   touch-action:manipulation;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
 #game{display:block;position:fixed;inset:0;touch-action:none}
 .hidden{display:none!important}
-#hud{position:fixed;left:0;right:0;top:0;pointer-events:none;padding:calc(env(safe-area-inset-top) + 10px) calc(env(safe-area-inset-right) + 12px) 0 calc(env(safe-area-inset-left) + 12px);display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+#hud{position:fixed;left:0;right:0;top:0;pointer-events:none;padding:calc(env(safe-area-inset-top) + 10px) calc(env(safe-area-inset-right) + 12px) 0 calc(env(safe-area-inset-left) + 12px);display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:start;gap:6px}
 .pill{background:rgba(15,17,22,.72);border-radius:14px;padding:6px 12px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-#scoreBox .lbl{font-size:13px;opacity:.7;font-weight:700}
-#score{font-size:26px;font-weight:900;line-height:1.05;font-variant-numeric:tabular-nums}
-#timer{font-size:20px;font-weight:900;font-variant-numeric:tabular-nums;align-self:flex-start;padding:4px 12px}
-.lgrp{display:flex;gap:8px;align-items:flex-start}.lcol{display:flex;flex-direction:column;gap:6px}
-.pbtn{pointer-events:auto;width:48px;height:48px;min-height:0;padding:0;display:flex;align-items:center;justify-content:center;gap:6px;border:0;cursor:pointer}.pbtn i{width:5px;height:18px;background:#fff;border-radius:2px}
+#scoreBox{padding:4px 10px;height:42px;display:flex;flex-direction:column;justify-content:center}#scoreBox .lbl{font-size:10px;opacity:.7;font-weight:700;line-height:1.1}
+#score{font-size:17px;font-weight:900;line-height:1.05;font-variant-numeric:tabular-nums}
+#timer{font-size:19px;font-weight:900;font-variant-numeric:tabular-nums;justify-self:center;height:42px;display:flex;align-items:center;padding:0 11px}
+#board{justify-self:end}#scoreBox{min-width:0}#score{white-space:nowrap}
+.lgrp{display:flex;gap:6px;align-items:flex-start}
+.pbtn{pointer-events:auto;width:42px;height:42px;min-height:0;padding:0;display:flex;align-items:center;justify-content:center;gap:6px;border:0;cursor:pointer}.pbtn i{width:4px;height:15px;background:#fff;border-radius:2px}
 #timer.low{color:var(--hot);animation:pulse 1s infinite}
 @keyframes pulse{50%{transform:scale(1.12)}}
-#board{list-style:none;margin:0;padding:6px 10px;font-size:13px;font-weight:700;min-width:120px}
-#board li{display:flex;align-items:center;gap:6px;padding:1px 0;white-space:nowrap}
+#board{list-style:none;margin:0;padding:5px 8px;font-size:12px;font-weight:700;min-width:0;max-width:100%}
+#board li{display:flex;align-items:center;gap:5px;padding:0;white-space:nowrap}
 #board li.me{color:#fff}#board li:not(.me){opacity:.85}
-#board .d{width:10px;height:10px;border-radius:50%;flex:none}
+#board .d{width:8px;height:8px;border-radius:50%;flex:none}
 #board .n{flex:1;overflow:hidden;text-overflow:ellipsis}
 #board .s{font-variant-numeric:tabular-nums}
 #toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top) + 190px);transform:translateX(-50%);font-weight:900;font-size:18px;padding:8px 16px;border-radius:14px;background:rgba(15,17,22,.8);opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
@@ -103,7 +104,8 @@ h2{margin:0;font-size:34px;line-height:1.05}
 <canvas id="game"></canvas>
 
 <div id="hud" class="hidden">
-  <div class="lgrp"><button id="pauseBtn" class="pill pbtn" aria-label="Pause"><i></i><i></i></button><div class="lcol"><div id="scoreBox" class="pill"><div class="lbl">Score</div><div id="score">0</div></div><div id="timer" class="pill">5:00</div></div></div>
+  <div class="lgrp"><button id="pauseBtn" class="pill pbtn" aria-label="Pause"><i></i><i></i></button><div id="scoreBox" class="pill"><div class="lbl">Score</div><div id="score">0</div></div></div>
+  <div id="timer" class="pill">5:00</div>
   <ol id="board" class="pill"></ol>
 </div>
 <div id="shop" class="hidden">
@@ -776,7 +778,7 @@ function rowHtml(h,i,el){const li=document.createElement('li');if(h.isPlayer)li.
  const d=document.createElement('span');d.className='d';d.style.background=h.color;const n=document.createElement('span');n.className='n';n.textContent=h.name;const s=document.createElement('span');s.className='s';s.textContent=h.score.toLocaleString();
  parts.push(d,n,s);for(const p of parts)li.appendChild(p);el.appendChild(li);}
 function totPct(){return Math.min(100,Math.floor((player.peak||player.r)/TOTAL_R*100));}
-function updateHud(){const TT=mode==='totality';{let b=0;for(const el of document.querySelectorAll('#hud .pill'))if(!el.classList.contains('hidden'))b=Math.max(b,el.getBoundingClientRect().bottom);hudBottom=b||90;}updateShop();$('scoreBox').firstChild.textContent=TT?'Totality':'Score';$('score').textContent=TT?totPct()+'%':player.score.toLocaleString();const tm=$('timer');tm.classList.toggle('hidden',TT);tm.textContent=fmt(timeLeft);tm.classList.toggle('low',timeLeft<=10);
+function updateHud(){const TT=mode==='totality';{let b=0;for(const el of document.querySelectorAll('#hud .pill'))if(!el.classList.contains('hidden'))b=Math.max(b,el.getBoundingClientRect().bottom);hudBottom=b||90;}updateShop();$('scoreBox').firstChild.textContent=TT?'Totality':'Score';{const st=TT?totPct()+'%':player.score.toLocaleString(),el=$('score');el.textContent=st;el.style.fontSize=(st.length<=7?17:st.length<=9?14:12)+'px';}const tm=$('timer');tm.classList.toggle('hidden',TT);tm.textContent=fmt(timeLeft);tm.classList.toggle('low',timeLeft<=10);
  const b=$('board');b.textContent='';const r=ranked();r.slice(0,5).forEach(h=>rowHtml(h,null,b));if(r.indexOf(player)>=5)rowHtml(player,null,b);}
 function startGame(m){if(typeof m==='string')mode=m;$('pause').classList.add('hidden');initAudio();newGame();roundCoins=0;player.ai=false;state='play';joy.on=false;$('menu').classList.add('hidden');$('over').classList.add('hidden');$('hud').classList.remove('hidden');$('shop').classList.toggle('hidden',mode==='totality');updateHud();updateShop();}
 function getTot(){try{const v=JSON.parse(localStorage.getItem('ton-totality')||'{}');return{t:typeof v.t==='number'?v.t:null,p:+v.p||0};}catch(_){return{t:null,p:0}}}
