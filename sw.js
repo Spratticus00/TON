@@ -1,5 +1,5 @@
 // Offline support: always ask the server for the newest files first, fall back to the cache when offline.
-const CACHE = 'ton-v5';
+const CACHE = 'ton-v6';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-180.png', './icon-192.png', './icon-512.png', './icon-1024.png'];
 
 self.addEventListener('install', e => {
