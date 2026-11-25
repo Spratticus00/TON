@@ -79,6 +79,7 @@ h2{margin:0;font-size:34px;line-height:1.05}
 .sk canvas{width:64px;height:64px;border-radius:12px}
 .sk[aria-pressed=true]{border-color:var(--accent);background:rgba(74,163,255,.18)}
 #doneBtn{margin-top:16px}
+.ver{font-size:13px;opacity:.5;margin:10px 0 0}
 .pcol{display:flex;flex-direction:column;gap:10px;margin-top:18px}.pcol .ghost{min-height:50px;font-size:17px}
 .coin{display:inline-block;width:.85em;height:.85em;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff3b0,#ffcc33 45%,#c9951a);box-shadow:0 0 0 1.5px #a87a10 inset;vertical-align:-.08em;margin-right:.3em}
 #shop{position:fixed;left:0;right:0;bottom:0;display:flex;gap:6px;justify-content:center;align-items:stretch;padding:0 8px calc(env(safe-area-inset-bottom) + 10px);pointer-events:none}
@@ -127,6 +128,7 @@ h2{margin:0;font-size:34px;line-height:1.05}
     <p class="wallet-line"><span class="coin"></span><span id="coinMenu">0</span> coins</p>
     <p class="how">Drag anywhere to steer. Consume anything smaller than you, smaller holes included, and steer clear of bigger ones. Classic rounds last 5 minutes.</p>
     <p class="how"><b>Totality:</b> one life, no clock, absurd growth. Consume the entire map before someone consumes you.</p>
+    <p class="ver">Version 1.8</p>
     <div id="tip" class="hidden">To install: tap Share, then “Add to Home Screen”.</div>
   </div>
 </div>
@@ -863,7 +865,7 @@ function frame(now){let dt=(now-last)/1000;last=now;if(dt>.05)dt=.05;if(dt<0)dt=
 requestAnimationFrame(frame);
 window.__sinkhole={get totEl(){return totEl},get state(){return state},get timeLeft(){return timeLeft},get player(){return player},get holes(){return holes},startGame,endRound,update};
 
-if('serviceWorker' in navigator&&location.protocol==='https:'){try{navigator.serviceWorker.register('sw.js').catch(()=>{});}catch(_){}}
+if('serviceWorker' in navigator&&location.protocol==='https:'){try{navigator.serviceWorker.register('sw.js').then(r=>r.update()).catch(()=>{});}catch(_){}}
 }
 </script>
 </body>
